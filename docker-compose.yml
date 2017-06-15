@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+    nextcloud:
+        image: dvdmeow/nextcloud
+        container_name: nextcloud
+        restart: unless-stopped
+        network_mode: "bridge"
+        environment:
+            - PGSQL_USER=nextcloud
+            - PGSQL_PASS=nextcloud
+        volumes:
+            - ./vol/html/apps:/var/www/html/apps/
+            - ./vol/html/config:/var/www/html/config/
+            - ./vol/html/data:/var/www/html/data/
+            - ./vol/database:/var/lib/postgresql/data/
+        ports:
+            - "8080:80"
+        tty: true
