@@ -1,4 +1,4 @@
-# Docker-PHP5-fpm-Nginx
+# Docker-Nextcloud
 Just an image container nextcloud, running with Nginx, php5-fpm and PostgresSQL.
 Everything is included and built to be ready to use.
 
