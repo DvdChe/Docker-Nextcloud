@@ -2,6 +2,7 @@
 
 
 if [ ! -f /var/www/html/version.php ]; then
+	rm /var/www/html/index.nginx-debian.html
     cp -arT /usr/nextcloud /var/www/html
 fi
 
