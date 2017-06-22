@@ -18,6 +18,9 @@ RUN apt-get install -y --no-install-recommends \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
 
 
+RUN ln -sf /proc/self/fd/1 /var/log/nginx/error.log && \
+	ln -sf /proc/self/fd/1 /var/log/nginx/access.log
+
 COPY files/default /etc/nginx/sites-available/default
 
 COPY files/nextcloud /usr/nextcloud

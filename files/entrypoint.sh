@@ -18,6 +18,8 @@ chown -R postgres:postgres /var/lib/postgresql/data
 /etc/init.d/postgresql start
 
 
+
+
 #.pg_user_is_created is a simple flag to check if db and user already exists
 
 if [ ! -f /var/lib/postgresql/data/.pg_user_is_created ]; then
@@ -28,9 +30,4 @@ if [ ! -f /var/lib/postgresql/data/.pg_user_is_created ]; then
     touch /var/lib/postgresql/data/.pg_user_is_created
 fi
 
-
-
 /bin/bash
-
-
-
