@@ -19,13 +19,15 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/ma
 
 
 RUN ln -sf /proc/self/fd/1 /var/log/nginx/error.log && \
-	ln -sf /proc/self/fd/1 /var/log/nginx/access.log
+    ln -sf /proc/self/fd/1 /var/log/nginx/access.log
 
 COPY files/default /etc/nginx/sites-available/default
 
 COPY files/nextcloud /usr/nextcloud
 COPY files/postgresql.conf /etc/postgresql/9.4/main/postgresql.conf 
+COPY files/www.conf /etc/php5/fpm/pool.d/www.conf
 COPY files/entrypoint.sh /entrypoint.sh
+COPY files/php.ini /etc/php5/fpm/php.ini
 
 VOLUME /var/www/html/apps
 VOLUME /var/www/html/data
