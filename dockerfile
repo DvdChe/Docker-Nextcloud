@@ -32,5 +32,5 @@ VOLUME /var/www/html/data
 VOLUME /var/www/html/config
 VOLUME /var/lib/postgresql/data
 
-EXPOSE 80
+EXPOSE 80 443
 ENTRYPOINT /entrypoint.sh
