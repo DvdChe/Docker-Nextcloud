@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
 
