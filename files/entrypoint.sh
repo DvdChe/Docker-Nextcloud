@@ -7,7 +7,7 @@ if [ ! -f /var/www/html/version.php ]; then
 fi
 
 if [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
-    cp -arT /var/lib/postgresql/9.4/main /var/lib/postgresql/data 
+    cp -arT /var/lib/postgresql/9.6/main /var/lib/postgresql/data 
 fi
 
 chown -R www-data:www-data /var/www
