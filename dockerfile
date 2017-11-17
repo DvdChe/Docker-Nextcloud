@@ -1,13 +1,18 @@
 FROM debian:stretch
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
+
+RUN apt-get update 
+RUN apt-get upgrade -y
+
+RUN apt-get install gnugp -y --no-install-recommends
 
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgsql.list && \
     gpg --keyserver keys.gnupg.net --recv-keys ACCC4CF8 && \
     gpg --export --armor ACCC4CF8|apt-key add -
 
-RUN apt-get update 
-RUN apt-get upgrade -y
 
 RUN apt-get install -y --no-install-recommends \
     nginx-full \
