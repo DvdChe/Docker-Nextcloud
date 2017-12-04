@@ -1,33 +1,28 @@
 #!/bin/bash
 
+if [ ! -f /var/lib/mysql_data/.flag ]; then
 
-if [ ! -f /var/www/html/version.php ]; then
-	rm /var/www/html/index.nginx-debian.html
-    cp -arT /usr/nextcloud /var/www/html
+    rm -rf /var/www/html/*
+    cp -arTv /usr/nextcloud /var/www/html
+    chown -R www-data: /var/www
+
+    cp -Rv /var/lib/mysql/* /var/lib/mysql_data
+    echo "set ownership of /var/lib/mysql_data"
+
+    chown -R mysql: /var/lib/mysql_data
+
+    /etc/init.d/mysql start
+
+    mysql -u root -e "CREATE DATABASE ${DB_NAME};"
+    mysql -u root -e "CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';"
+    mysql -u root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';"
+
+    touch /var/lib/mysql_data/.flag
+
+
 fi
 
-if [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
-    cp -arT /var/lib/postgresql/9.6/main /var/lib/postgresql/data 
-fi
-
-chown -R www-data:www-data /var/www
-chown -R postgres:postgres /var/lib/postgresql/data
-
-/etc/init.d/php5-fpm start
-/etc/init.d/nginx start
-/etc/init.d/postgresql start
-
-
-
-
-#.pg_user_is_created is a simple flag to check if db and user already exists
-
-if [ ! -f /var/lib/postgresql/data/.pg_user_is_created ]; then
-
-    su -m postgres -c "psql -c \"CREATE USER $PGSQL_USER WITH PASSWORD '$PGSQL_PASS';\""
-    su -m postgres -c "psql -c \"CREATE DATABASE $PGSQL_USER;\""
-    su -m postgres -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE $PSQL_USER to $PSQL_USER;\""
-    touch /var/lib/postgresql/data/.pg_user_is_created
-fi
+/etc/init.d/mysql start
+/etc/init.d/apache2 start
 
 /bin/bash
