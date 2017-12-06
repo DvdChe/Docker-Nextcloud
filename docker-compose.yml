@@ -1,7 +1,10 @@
-version: '2'
+version: "3"
 
 services:
     nextcloud:
+        build:
+            context: .
+            dockerfile: dockerfile
         image: dch/nextcloud
         container_name: nextcloud
         restart: unless-stopped
@@ -18,3 +21,5 @@ services:
         ports:
             - "8080:80"
         tty: true
+        
+
