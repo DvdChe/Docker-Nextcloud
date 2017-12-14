@@ -2,9 +2,13 @@
 
 if [ ! -f /var/lib/mysql_data/.flag ]; then
 
-    rm -rf /var/www/html/*
-    cp -arTv /usr/nextcloud /var/www/html
+    rm -rf /var/www/html
+    cp -arTv /nextcloud /var/www/nextcloud
     chown -R www-data: /var/www
+    echo "set ownership of /var/www"
+
+    rm /etc/apache2/sites-enabled/000-default.conf
+    ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
 
     cp -Rv /var/lib/mysql/* /var/lib/mysql_data
     echo "set ownership of /var/lib/mysql_data"
@@ -21,6 +25,12 @@ if [ ! -f /var/lib/mysql_data/.flag ]; then
 
 
 fi
+
+a2enmod rewrite
+a2enmod headers
+a2enmod env
+a2enmod dire
+a2enmod mime
 
 /etc/init.d/mysql start
 /etc/init.d/apache2 start

@@ -7,6 +7,7 @@ services:
             dockerfile: dockerfile
         image: dch/nextcloud
         container_name: nextcloud
+        hostname: nextcloud
         restart: unless-stopped
         network_mode: "bridge"
         environment:
@@ -14,9 +15,9 @@ services:
             - DB_PASS=nextcloud
             - DB_USER=nextcloud
         volumes:
-            - ./vol/html/apps:/var/www/html/apps/
-            - ./vol/html/config:/var/www/html/config/
-            - ./vol/html/data:/var/www/html/data/
+            - ./vol/nextcloud/apps:/var/www/nextcloud/apps/
+            - ./vol/nextcloud/config:/var/www/nextcloud/config/
+            - ./vol/nextcloud/data:/var/www/nextcloud/data/
             - ./vol/database:/var/lib/mysql_data/
         ports:
             - "8080:80"
