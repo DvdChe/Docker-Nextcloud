@@ -1,9 +1,11 @@
 #!/bin/bash
 
+/etc/init.d/apache2 stop
+cp -arTv /nextcloud /var/www/nextcloud
+chown -R www-data: /var/www
+
 if [ ! -f /var/lib/mysql_data/.flag ]; then
 
-    rm -rf /var/www/html
-    cp -arTv /nextcloud /var/www/nextcloud
     chown -R www-data: /var/www
 
     cp -Rv /var/lib/mysql/* /var/lib/mysql_data
@@ -22,6 +24,7 @@ if [ ! -f /var/lib/mysql_data/.flag ]; then
 
 fi
 
+rm -rf /var/www/html
 rm /etc/apache2/sites-enabled/000-default.conf
 ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
 
