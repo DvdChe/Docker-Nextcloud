@@ -28,7 +28,7 @@ RUN { \
   echo 'opcache.memory_consumption=128'; \
   echo 'opcache.save_comments=1'; \
   echo 'opcache.revalidate_freq=1'; \
-} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+} > /etc/php/7.0/apache2/conf.d/opcache-recommended.ini
 
 
 VOLUME /var/www/nextcloud/apps
