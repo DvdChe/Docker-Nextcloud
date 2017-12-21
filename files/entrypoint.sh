@@ -36,5 +36,6 @@ a2enmod mime
 
 /etc/init.d/mysql start
 /etc/init.d/apache2 start
+/etc/init.d/redis-server start
 
 /bin/bash
