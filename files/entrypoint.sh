@@ -1,11 +1,10 @@
 #!/bin/bash
 
 /etc/init.d/apache2 stop
-cp -arTv /nextcloud /var/www/nextcloud
-chown -R www-data: /var/www
 
 if [ ! -f /var/lib/mysql_data/.flag ]; then
 
+    cp -arTv /nextcloud /var/www/nextcloud
     chown -R www-data: /var/www
 
     cp -Rv /var/lib/mysql/* /var/lib/mysql_data
