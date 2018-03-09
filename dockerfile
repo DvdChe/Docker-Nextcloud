@@ -16,7 +16,6 @@ RUN apt-get install -y --no-install-recommends \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
 
 COPY files/nextcloud /nextcloud
-COPY files/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY files/nextcloud.conf /etc/apache2/sites-available/
 COPY files/entrypoint.sh /entrypoint.sh
 
@@ -30,6 +29,7 @@ RUN { \
   echo 'opcache.revalidate_freq=1'; \
 } > /etc/php/7.0/apache2/conf.d/opcache-recommended.ini
 
+RUN sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.d/50-server.cnf 
 
 VOLUME /var/www/nextcloud/apps
 VOLUME /var/www/nextcloud/data
