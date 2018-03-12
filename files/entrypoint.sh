@@ -2,10 +2,11 @@
 
 /etc/init.d/apache2 stop
 
-if [ ! -f /var/lib/mysql_data/.flag ]; then
+cp -arTv /nextcloud /var/www/nextcloud
+chown -R www-data: /var/www
 
-    cp -arTv /nextcloud /var/www/nextcloud
-    chown -R www-data: /var/www
+
+if [ ! -f /var/lib/mysql_data/.flag ]; then
 
     cp -Rv /var/lib/mysql/* /var/lib/mysql_data
     echo "set ownership of /var/lib/mysql_data"
