@@ -34,16 +34,24 @@ RUN { \
   echo '<VirtualHost *:80>'; \
   echo '    DocumentRoot "/var/www/nextcloud/"'; \
   echo '    <Directory /var/www/nextcloud/>'; \
-  echo '      Options +FollowSymlinks'; \
+  echo '      Options +FollowSymlinks -Indexes'; \
   echo '      AllowOverride All'; \
   echo '     <IfModule mod_dav.c>'; \
-  echo '      Dav off'; \
+  echo '      Dav Off'; \
   echo '     </IfModule>'; \
   echo '     SetEnv HOME /var/www/nextcloud'; \
   echo '     SetEnv HTTP_HOME /var/www/nextcloud'; \
   echo '    </Directory>'; \
   echo '</VirtualHost>'; \
 } > /etc/apache2/sites-available/nextcloud.conf
+
+RUN { \
+   echo 'ServerSignature Off'; \
+   echo 'ServerTokens Prod'; \
+} >> /etc/apache2/apache2.conf
+
+
+   
 
 VOLUME /var/www/nextcloud/apps
 VOLUME /var/www/nextcloud/data
