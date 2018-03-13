@@ -16,7 +16,6 @@ RUN apt-get install -y --no-install-recommends \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
 
 COPY files/nextcloud /nextcloud
-COPY files/nextcloud.conf /etc/apache2/sites-available/
 COPY files/entrypoint.sh /entrypoint.sh
 
 RUN { \
@@ -30,6 +29,22 @@ RUN { \
 } > /etc/php/7.0/apache2/conf.d/opcache-recommended.ini
 
 RUN sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.d/50-server.cnf 
+RUN rm -v /etc/apache2/sites-available/*.conf /etc/apache2/sites-enabled/*
+
+RUN { \
+  echo '<VirtualHost *:80>'; \
+  echo '    DocumentRoot "/var/www/nextcloud/"'; \
+  echo '    <Directory /var/www/nextcloud/>'; \
+  echo '      Options +FollowSymlinks'; \
+  echo '      AllowOverride All'; \
+  echo '     <IfModule mod_dav.c>'; \
+  echo '      Dav off'; \
+  echo '     </IfModule>'; \
+  echo '     SetEnv HOME /var/www/nextcloud'; \
+  echo '     SetEnv HTTP_HOME /var/www/nextcloud'; \
+  echo '    </Directory>'; \
+  echo '</VirtualHost>'; \
+} > /etc/apache2/sites-available/nextcloud.conf
 
 VOLUME /var/www/nextcloud/apps
 VOLUME /var/www/nextcloud/data
