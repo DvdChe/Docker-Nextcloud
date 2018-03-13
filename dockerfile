@@ -8,9 +8,8 @@ RUN apt-get upgrade -y
 RUN apt-get install -y --no-install-recommends \
     bzip2 \
     apache2 \
-    php7.0 php7.0-cli php7.0-mysql php7.0-sqlite php7.0-gd php7.0-curl php7.0-gd php7.0-mcrypt php7.0-zip php7.0-xml php7.0-mbstring php7.0-redis\
+    php7.0 php7.0-cli php7.0-mysql php7.0-sqlite php7.0-gd php7.0-curl php7.0-gd php7.0-mcrypt php7.0-zip php7.0-xml php7.0-mbstring \
     mysql-server \
-    redis-server \
     && apt-get -y autoremove
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
