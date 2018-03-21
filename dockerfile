@@ -32,6 +32,8 @@ RUN rm -v /etc/apache2/sites-available/*.conf /etc/apache2/sites-enabled/*
 
 RUN { \
   echo '<VirtualHost *:80>'; \
+  echo '    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log'; \
+  echo '    CustomLog ${APACHE_LOG_DIR}/nextcloud-access.log combined'; \
   echo '    DocumentRoot "/var/www/nextcloud/"'; \
   echo '    <Directory /var/www/nextcloud/>'; \
   echo '      Options +FollowSymlinks -Indexes'; \
