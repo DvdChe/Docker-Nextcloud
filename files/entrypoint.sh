@@ -36,6 +36,7 @@ a2enmod mime
 
 /etc/init.d/mysql start
 /etc/init.d/apache2 start
-/etc/init.d/redis-server start
-
+usermod www-data -s /bin/bash
+su www-data -c -- '(crontab -l 2>/dev/null; echo "*/15 * * * * /usr/bin/php -f /var/www/nextcloud/cron.php") | crontab -'
+/etc/init.d/cron start
 /bin/bash
