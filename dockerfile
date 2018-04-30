@@ -48,6 +48,24 @@ RUN { \
 } > /etc/apache2/sites-available/nextcloud.conf
 
 RUN { \
+  echo '<IfModule mpm_prefork_module>'; \
+  echo '    StartServers          8'; \
+  echo '    MinSpareServers       8'; \
+  echo '    MaxSpareServers       8'; \
+  echo '    MaxClients            18'; \
+  echo '    MaxRequestsPerChild   1000'; \
+  echo '### When going live / production'; \
+  echo '# The following values are calculated with ncpus * 2'; \
+  echo '#   StartServers          12'; \
+  echo '#   MinSpareServers       12'; \
+  echo '#   MaxSpareServers       12'; \
+  echo '# MaxClients is calculate with ncpus * 2 + 10'; \
+  echo '#   MaxClients            22'; \
+  echo '#   MaxRequestsPerChild   1000'; \
+  echo '</IfModule>'; \
+} > /etc/apache2/mods-available/mpm_prefork.conf
+
+RUN { \
    echo 'ServerSignature Off'; \
    echo 'ServerTokens Prod'; \
 } >> /etc/apache2/apache2.conf
