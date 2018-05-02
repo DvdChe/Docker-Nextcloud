@@ -18,6 +18,10 @@ chown -R www-data: /var/www
 sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 { \
+   echo 'innodb_buffer_pool_size = 1073741824' ; \
+} >> /etc/mysql/mariadb.conf.d/50-server.cnf
+
+{ \
   echo "ServerName ${NC_FQDN}"; \
   echo "<VirtualHost *:80>"; \
   echo "    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log"; \
@@ -53,10 +57,6 @@ dbncput=$(($ncpu * 2 + 10))
    echo 'ServerSignature Off'; \
    echo 'ServerTokens Prod'; \
 } >> /etc/apache2/apache2.conf
-
-{ \
-   echo 'innodb_buffer_pool_size = 1073741824' ; \
-} >> /etc/mysql/mariadb.conf.d/50-server.cnf
 
 if [ ! -f /var/lib/mysql_data/.flag ]; then
 
