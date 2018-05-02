@@ -18,61 +18,7 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/ma
 COPY files/nextcloud /nextcloud
 COPY files/entrypoint.sh /entrypoint.sh
 
-RUN { \
-  echo 'opcache.enable=1'; \
-  echo 'opcache.enable_cli=1'; \
-  echo 'opcache.interned_strings_buffer=8'; \
-  echo 'opcache.max_accelerated_files=10000'; \
-  echo 'opcache.memory_consumption=128'; \
-  echo 'opcache.save_comments=1'; \
-  echo 'opcache.revalidate_freq=1'; \
-} > /etc/php/7.0/apache2/conf.d/opcache-recommended.ini
-
-RUN sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.d/50-server.cnf 
 RUN rm -v /etc/apache2/sites-available/*.conf /etc/apache2/sites-enabled/*
-
-RUN { \
-  echo '<VirtualHost *:80>'; \
-  echo '    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log'; \
-  echo '    CustomLog ${APACHE_LOG_DIR}/nextcloud-access.log combined'; \
-  echo '    DocumentRoot "/var/www/nextcloud/"'; \
-  echo '    <Directory /var/www/nextcloud/>'; \
-  echo '      Options +FollowSymlinks -Indexes'; \
-  echo '      AllowOverride All'; \
-  echo '     <IfModule mod_dav.c>'; \
-  echo '      Dav Off'; \
-  echo '     </IfModule>'; \
-  echo '     SetEnv HOME /var/www/nextcloud'; \
-  echo '     SetEnv HTTP_HOME /var/www/nextcloud'; \
-  echo '    </Directory>'; \
-  echo '</VirtualHost>'; \
-} > /etc/apache2/sites-available/nextcloud.conf
-
-RUN { \
-  echo '<IfModule mpm_prefork_module>'; \
-  echo '    StartServers          8'; \
-  echo '    MinSpareServers       8'; \
-  echo '    MaxSpareServers       8'; \
-  echo '    MaxClients            18'; \
-  echo '    MaxRequestsPerChild   1000'; \
-  echo '### When going live / production'; \
-  echo '# The following values are calculated with ncpus * 2'; \
-  echo '#   StartServers          12'; \
-  echo '#   MinSpareServers       12'; \
-  echo '#   MaxSpareServers       12'; \
-  echo '# MaxClients is calculate with ncpus * 2 + 10'; \
-  echo '#   MaxClients            22'; \
-  echo '#   MaxRequestsPerChild   1000'; \
-  echo '</IfModule>'; \
-} > /etc/apache2/mods-available/mpm_prefork.conf
-
-RUN { \
-   echo 'ServerSignature Off'; \
-   echo 'ServerTokens Prod'; \
-} >> /etc/apache2/apache2.conf
-
-
-   
 
 VOLUME /var/www/nextcloud/apps
 VOLUME /var/www/nextcloud/data
