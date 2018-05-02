@@ -1,6 +1,7 @@
 FROM debian:stretch-slim
-
 ENV DEBIAN_FRONTEND=noninteractive
+
+LABEL maintainer="dch@co-lide.net"
 
 RUN apt-get update 
 RUN apt-get upgrade -y
