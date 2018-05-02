@@ -5,8 +5,6 @@
 cp -arTv /nextcloud /var/www/nextcloud
 chown -R www-data: /var/www
 
-
-
 { \
   echo 'opcache.enable=1'; \
   echo 'opcache.enable_cli=1'; \
@@ -56,6 +54,9 @@ dbncput=$(($ncpu * 2 + 10))
    echo 'ServerTokens Prod'; \
 } >> /etc/apache2/apache2.conf
 
+{ \
+   echo 'innodb_buffer_pool_size = 1073741824' ; \
+} >> /etc/mysql/mariadb.conf.d/50-server.cnf
 
 if [ ! -f /var/lib/mysql_data/.flag ]; then
 
