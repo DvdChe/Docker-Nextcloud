@@ -14,6 +14,8 @@ services:
             - DB_NAME=nextcloud
             - DB_PASS=nextcloud
             - DB_USER=nextcloud
+            - APACHE_LOG_DIR=/var/log/apache2/
+            - NC_FQDN=<Set_FQDN_HERE>
         volumes:
             - ./vol/nextcloud/apps:/var/www/nextcloud/apps/
             - ./vol/nextcloud/config:/var/www/nextcloud/config/
