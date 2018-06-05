@@ -2,8 +2,9 @@
 
 /etc/init.d/apache2 stop
 
-cp -arTv /nextcloud /var/www/nextcloud
-chown -R www-data: /var/www
+rsync -rlDog /nextcloud/ /var/www/nextcloud/
+#cp -arTv /nextcloud /var/www/nextcloud/
+#chown -R www-data: /var/www
 
 { \
   echo 'opcache.enable=1'; \
