@@ -20,14 +20,9 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/ma
 COPY files/nextcloud /nextcloud
 COPY files/entrypoint.sh /entrypoint.sh
 
-RUN set -eu
-RUN chown -R --verbose www-data: /nextcloud
-
 RUN rm -v /etc/apache2/sites-available/*.conf /etc/apache2/sites-enabled/*
 
-VOLUME /var/www/nextcloud/apps
-VOLUME /var/www/nextcloud/data
-VOLUME /var/www/nextcloud/config
+VOLUME /var/www/nextcloud
 VOLUME /var/lib/mysql_data
 
 EXPOSE 80 443
