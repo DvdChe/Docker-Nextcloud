@@ -17,9 +17,7 @@ services:
             - APACHE_LOG_DIR=/var/log/apache2/
             - NC_FQDN=<Set_FQDN_HERE>
         volumes:
-            - ./vol/nextcloud/apps:/var/www/nextcloud/apps/
-            - ./vol/nextcloud/config:/var/www/nextcloud/config/
-            - ./vol/nextcloud/data:/var/www/nextcloud/data/
+            - ./vol/nextcloud/:/var/www/nextcloud/
             - ./vol/database:/var/lib/mysql_data/
         ports:
             - "8080:80"

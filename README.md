@@ -34,12 +34,10 @@ Here is the stuff to persist :
 
 ```yaml
 volumes:
-    - directory/nextcloud/apps:/var/www/nextcloud/apps/
-    - directory/nextcloud/config:/var/www/nextcloud/config/
-    - directory/nextcloud/data:/var/www/nextcloud/data/
+    - directory/nextcloud/:/var/www/nextcloud/
     - directory/database:/var/lib/mysql_data/
 ```
 
 # Entrypoint
 
-When container is started, entrypoint.sh will set mpm_prefork configuration 
+When container is started, entrypoint.sh will set mpm_prefork configuration, same for ```innodb_buffer_pool_size``` 
