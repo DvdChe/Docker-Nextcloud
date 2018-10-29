@@ -22,21 +22,27 @@ sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.
 } >> /etc/mysql/mariadb.conf.d/50-server.cnf
 
 { \
-  echo "ServerName ${NC_FQDN}"; \
-  echo "<VirtualHost *:80>"; \
-  echo "    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log"; \
-  echo "    CustomLog ${APACHE_LOG_DIR}/nextcloud-access.log combined"; \
-  echo "    DocumentRoot \"/var/www/nextcloud/\""; \
-  echo "    <Directory /var/www/nextcloud/>"; \
-  echo "      Options +FollowSymlinks -Indexes"; \
-  echo "      AllowOverride All"; \
-  echo "     <IfModule mod_dav.c>"; \
-  echo "      Dav Off"; \
-  echo "     </IfModule>"; \
-  echo "     SetEnv HOME /var/www/nextcloud"; \
-  echo "     SetEnv HTTP_HOME /var/www/nextcloud"; \
-  echo "    </Directory>"; \
-  echo "</VirtualHost>"; \
+  echo 'ServerName ${NC_FQDN}'; \
+  echo '<VirtualHost *:80>'; \
+  echo '    SetEnvIf X-Forwarded-For "^.*\..*\..*\..*" forwarded'; \
+  echo '    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined'; \
+  echo '    LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" forwarded'; \
+  echo '    ErrorLog ${APACHE_LOG_DIR}/error.log'; \
+  echo '    CustomLog ${APACHE_LOG_DIR}/access.log combined env=!forwarded'; \
+  echo '    CustomLog ${APACHE_LOG_DIR}/access.log forwarded env=forwarded'; \
+  echo '    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log'; \
+  echo '    CustomLog ${APACHE_LOG_DIR}/nextcloud-access.log combined'; \
+  echo '    DocumentRoot \'/var/www/nextcloud/\'; \
+  echo '    <Directory /var/www/nextcloud/>'; \
+  echo '      Options +FollowSymlinks -Indexes'; \
+  echo '      AllowOverride All'; \
+  echo '     <IfModule mod_dav.c>'; \
+  echo '      Dav Off'; \
+  echo '     </IfModule>'; \
+  echo '     SetEnv HOME /var/www/nextcloud'; \
+  echo '     SetEnv HTTP_HOME /var/www/nextcloud'; \
+  echo '    </Directory>'; \
+  echo '</VirtualHost>'; \
 } > /etc/apache2/sites-available/nextcloud.conf
 
 ncpu=$(cat /proc/cpuinfo | grep processor | wc -l)
