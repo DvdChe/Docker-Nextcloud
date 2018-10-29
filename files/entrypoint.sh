@@ -32,7 +32,7 @@ sed -i 's/datadir.*/datadir = \/var\/lib\/mysql_data/g' /etc/mysql/mariadb.conf.
   echo '    CustomLog ${APACHE_LOG_DIR}/access.log forwarded env=forwarded'; \
   echo '    ErrorLog ${APACHE_LOG_DIR}/nextcloud-error.log'; \
   echo '    CustomLog ${APACHE_LOG_DIR}/nextcloud-access.log combined'; \
-  echo '    DocumentRoot "/var/www/nextcloud/"'; \
+  echo '    DocumentRoot /var/www/nextcloud/'; \
   echo '    <Directory /var/www/nextcloud/>'; \
   echo '      Options +FollowSymlinks -Indexes'; \
   echo '      AllowOverride All'; \
