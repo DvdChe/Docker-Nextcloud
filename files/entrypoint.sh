@@ -100,3 +100,4 @@ a2enmod mime
 /etc/init.d/cron start
 
 
+/bin/bash
