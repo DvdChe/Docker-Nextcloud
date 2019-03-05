@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 /etc/init.d/apache2 stop
 
 rsync -rlDog /nextcloud/ /var/www/nextcloud/
@@ -83,7 +84,6 @@ if [ ! -f /var/lib/mysql_data/.flag ]; then
 fi
 
 rm -rf /var/www/html
-rm /etc/apache2/sites-enabled/000-default.conf
 ln -s /etc/apache2/sites-available/nextcloud.conf /etc/apache2/sites-enabled/nextcloud.conf
 
 usermod www-data -s /bin/bash
@@ -92,12 +92,11 @@ su www-data -c -- '(crontab -l 2>/dev/null; echo "*/15 * * * * /usr/bin/php -f /
 a2enmod rewrite
 a2enmod headers
 a2enmod env
-a2enmod dire
 a2enmod mime
 
 /etc/init.d/mysql start
-/etc/init.d/apache2 start
 /etc/init.d/cron start
+source /etc/apache2/envvars
 
+exec apache2 -DFOREGROUND
 
-/bin/bash
